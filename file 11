@@ -1,0 +1,101 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/frontend/src/styles.css b/frontend/src/styles.css
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d001d0cb0ff7b3c331c4dfa51a28fbde2a2f6a2
+--- /dev/null
++++ b/frontend/src/styles.css
+@@ -0,0 +1,91 @@
++:root {
++  font-family: Inter, system-ui, sans-serif;
++  color: #e2e7ff;
++  background: #05070f;
++}
++
++body {
++  margin: 0;
++  background: radial-gradient(circle at top right, #21143b, #05070f 45%);
++}
++
++.app-shell {
++  min-height: 100vh;
++  display: flex;
++  flex-direction: column;
++}
++
++.top-bar {
++  padding: 12px 18px;
++  border-bottom: 1px solid #4f5ccc;
++  background: rgba(20, 24, 44, 0.85);
++  backdrop-filter: blur(8px);
++  font-weight: 600;
++  letter-spacing: 0.4px;
++}
++
++.workspace {
++  display: grid;
++  grid-template-columns: 240px 1fr 290px;
++  gap: 12px;
++  padding: 12px;
++}
++
++.panel {
++  background: rgba(19, 25, 46, 0.55);
++  border: 1px solid rgba(122, 142, 255, 0.35);
++  border-radius: 12px;
++  padding: 12px;
++  box-shadow: 0 0 20px rgba(94, 81, 255, 0.2);
++}
++
++.hierarchy button,
++.ai-panel button,
++.pricing article,
++.inspector button {
++  margin-bottom: 8px;
++}
++
++button {
++  width: 100%;
++  padding: 8px;
++  border-radius: 8px;
++  border: 1px solid #6573ed;
++  color: #e8ebff;
++  background: linear-gradient(90deg, #3f46b7, #5f2ec5);
++  cursor: pointer;
++}
++
++button.active {
++  outline: 2px solid #90a0ff;
++}
++
++textarea {
++  width: 100%;
++  min-height: 72px;
++  background: #0a1024;
++  color: #dbe1ff;
++  border: 1px solid #5062d1;
++  border-radius: 8px;
++  margin-bottom: 8px;
++}
++
++.viewport canvas {
++  width: 100% !important;
++  border-radius: 12px;
++  border: 1px solid #4856bd;
++}
++
++.pricing {
++  margin: 0 12px 12px;
++  display: grid;
++  grid-template-columns: repeat(4, 1fr);
++  gap: 8px;
++}
++
++.pricing article {
++  background: rgba(55, 42, 99, 0.4);
++  border: 1px solid #6c5acf;
++  border-radius: 10px;
++  padding: 8px;
++}
+ 
+EOF
+)
