@@ -1,0 +1,31 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/frontend/package.json b/frontend/package.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f8a723ecf2a8a30d4e2301d8c8f1bb9c7f78706
+--- /dev/null
++++ b/frontend/package.json
+@@ -0,0 +1,21 @@
++{
++  "name": "turnerai-frontend",
++  "version": "0.1.0",
++  "private": true,
++  "type": "module",
++  "scripts": {
++    "dev": "vite",
++    "build": "vite build",
++    "preview": "vite preview",
++    "lint": "eslint src --ext js,jsx"
++  },
++  "dependencies": {
++    "react": "^18.3.1",
++    "react-dom": "^18.3.1",
++    "three": "^0.167.1"
++  },
++  "devDependencies": {
++    "@vitejs/plugin-react": "^4.3.1",
++    "vite": "^5.4.2"
++  }
++}
+ 
+EOF
+)
