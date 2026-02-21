@@ -1,0 +1,76 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/frontend/src/components/Viewport.jsx b/frontend/src/components/Viewport.jsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..eea5c5d1e3fb7946a3ffe937871685773507271e
+--- /dev/null
++++ b/frontend/src/components/Viewport.jsx
+@@ -0,0 +1,66 @@
++import { useEffect, useRef } from 'react';
++import * as THREE from 'three';
++
++export function Viewport({ objects }) {
++  const mountRef = useRef(null);
++
++  useEffect(() => {
++    const width = mountRef.current.clientWidth;
++    const height = 420;
++
++    const scene = new THREE.Scene();
++    scene.background = new THREE.Color('#0b0f1a');
++
++    const camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 1000);
++    camera.position.set(4, 4, 6);
++    camera.lookAt(0, 0, 0);
++
++    const renderer = new THREE.WebGLRenderer({ antialias: true });
++    renderer.setSize(width, height);
++    mountRef.current.appendChild(renderer.domElement);
++
++    const ambient = new THREE.AmbientLight(0x6677ff, 0.5);
++    const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
++    keyLight.position.set(5, 8, 2);
++    scene.add(ambient, keyLight);
++
++    const grid = new THREE.GridHelper(20, 20, '#5d69ff', '#253056');
++    scene.add(grid);
++
++    const meshes = objects.map((obj) => {
++      let geometry;
++      if (obj.type === 'Sphere') geometry = new THREE.SphereGeometry(0.7, 24, 24);
++      else geometry = new THREE.BoxGeometry(1, 1, 1);
++
++      const material = new THREE.MeshStandardMaterial({ color: obj.type === 'Sphere' ? '#9e6eff' : '#3eb2ff' });
++      const mesh = new THREE.Mesh(geometry, material);
++      mesh.position.set(...obj.position);
++      mesh.rotation.set(...obj.rotation);
++      mesh.scale.set(...obj.scale);
++      scene.add(mesh);
++      return mesh;
++    });
++
++    let frame;
++    const animate = () => {
++      frame = requestAnimationFrame(animate);
++      meshes.forEach((mesh, index) => {
++        mesh.rotation.y += 0.003 + index * 0.001;
++      });
++      renderer.render(scene, camera);
++    };
++    animate();
++
++    return () => {
++      cancelAnimationFrame(frame);
++      renderer.dispose();
++      mountRef.current?.removeChild(renderer.domElement);
++      meshes.forEach((mesh) => {
++        mesh.geometry.dispose();
++        mesh.material.dispose();
++      });
++    };
++  }, [objects]);
++
++  return <section ref={mountRef} className="viewport" />;
++}
+ 
+EOF
+)
