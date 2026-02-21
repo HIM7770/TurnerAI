@@ -1,0 +1,114 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/frontend/src/App.jsx b/frontend/src/App.jsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..d2690efd84450365b6918124d4be4ea697861a12
+--- /dev/null
++++ b/frontend/src/App.jsx
+@@ -0,0 +1,104 @@
++import { useMemo, useState } from 'react';
++import { Viewport } from './components/Viewport';
++
++const defaultSceneObjects = [
++  { id: 'cube-1', type: 'Box', position: [0, 0.5, 0], scale: [1, 1, 1], rotation: [0, 0, 0], texture: 'Metal' },
++  { id: 'sphere-1', type: 'Sphere', position: [2, 1, 0], scale: [1, 1, 1], rotation: [0, 0, 0], texture: 'Stone' }
++];
++
++const tierCards = [
++  { key: 'builder', title: 'Builder', price: '$50/month', quota: '25 AI generations' },
++  { key: 'pro', title: 'Pro', price: '$75/month', quota: '150 AI generations' },
++  { key: 'studio', title: 'Studio', price: '$250/month', quota: 'Unlimited + Multiplayer' },
++  { key: 'creatorElite', title: 'Creator Elite', price: '$150/week', quota: 'Unlimited + Realtime Co-building' }
++];
++
++export function App() {
++  const [selectedId, setSelectedId] = useState(defaultSceneObjects[0].id);
++  const [prompt, setPrompt] = useState('Create a medieval castle battlefield with torches and fog');
++  const [logicPrompt, setLogicPrompt] = useState('Create a zombie survival game with stamina and wave spawning');
++  const [npcPrompt, setNpcPrompt] = useState('Create a shopkeeper NPC with dialogue and quest system');
++  const selectedObject = useMemo(() => defaultSceneObjects.find((obj) => obj.id === selectedId), [selectedId]);
++
++  return (
++    <div className="app-shell">
++      <header className="top-bar">TurnerAI • Genesis Engine AI</header>
++      <div className="workspace">
++        <aside className="panel hierarchy">
++          <h3>Scene Hierarchy</h3>
++          {defaultSceneObjects.map((obj) => (
++            <button key={obj.id} className={selectedId === obj.id ? 'active' : ''} onClick={() => setSelectedId(obj.id)}>
++              {obj.id}
++            </button>
++          ))}
++          <div className="primitive-buttons">
++            <button>Add Cube</button>
++            <button>Add Sphere</button>
++            <button>Add Light</button>
++            <button>Physics: ON</button>
++          </div>
++        </aside>
++
++        <main>
++          <Viewport objects={defaultSceneObjects} />
++          <section className="panel ai-panel">
++            <h3>AI 3D Generation</h3>
++            <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} />
++            <button>Generate Scene (.glb + textures + collisions)</button>
++
++            <h3>AI Game Logic</h3>
++            <textarea value={logicPrompt} onChange={(e) => setLogicPrompt(e.target.value)} />
++            <div className="export-buttons">
++              <button>Generate Lua</button>
++              <button>Generate Unity C#</button>
++              <button>Generate Unreal C++</button>
++            </div>
++
++            <h3>AI NPC System</h3>
++            <textarea value={npcPrompt} onChange={(e) => setNpcPrompt(e.target.value)} />
++            <button>Generate Dialogue + Quest</button>
++          </section>
++        </main>
++
++        <aside className="panel inspector">
++          <h3>Inspector</h3>
++          {selectedObject ? (
++            <ul>
++              <li>Type: {selectedObject.type}</li>
++              <li>Position: {selectedObject.position.join(', ')}</li>
++              <li>Rotation: {selectedObject.rotation.join(', ')}</li>
++              <li>Scale: {selectedObject.scale.join(', ')}</li>
++              <li>Texture: {selectedObject.texture}</li>
++            </ul>
++          ) : (
++            <p>Select an object</p>
++          )}
++
++          <h3>Asset Browser</h3>
++          <ul>
++            <li>Materials</li>
++            <li>Props</li>
++            <li>Characters</li>
++            <li>Lighting Presets</li>
++          </ul>
++
++          <h3>Dashboard</h3>
++          <p>Tier: Builder</p>
++          <p>Generations Remaining: 25</p>
++          <p>Projects: 0</p>
++          <button>Upgrade Plan</button>
++        </aside>
++      </div>
++
++      <footer className="panel pricing">
++        {tierCards.map((tier) => (
++          <article key={tier.key}>
++            <h4>{tier.title}</h4>
++            <p>{tier.price}</p>
++            <p>{tier.quota}</p>
++          </article>
++        ))}
++      </footer>
++    </div>
++  );
++}
+ 
+EOF
+)
