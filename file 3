@@ -1,0 +1,29 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/backend/package.json b/backend/package.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..ae240bb81413ae8d27307b230f6f431cc5b583fe
+--- /dev/null
++++ b/backend/package.json
+@@ -0,0 +1,19 @@
++{
++  "name": "turnerai-backend",
++  "version": "0.1.0",
++  "type": "module",
++  "scripts": {
++    "dev": "node --watch src/server.js",
++    "start": "node src/server.js",
++    "lint": "node --check src/server.js"
++  },
++  "dependencies": {
++    "cors": "^2.8.5",
++    "dotenv": "^16.4.5",
++    "express": "^4.19.2",
++    "jsonwebtoken": "^9.0.2",
++    "stripe": "^16.8.0",
++    "uuid": "^10.0.0",
++    "zod": "^3.23.8"
++  }
++}
+ 
+EOF
+)
