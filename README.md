@@ -1,9 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/README.md b/README.md
-index f44d202e911f8059e8025d34a9d4512f1c7409ab..b6e73399dcddd2c2a2f6ed4e6a6c309d30843155 100644
---- a/README.md
-+++ b/README.md
-@@ -1,2 +1,75 @@
  # TurnerAI
 -TurnerAI is a 3D game bulider
 +
