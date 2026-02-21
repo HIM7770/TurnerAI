@@ -1,0 +1,19 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/frontend/vite.config.js b/frontend/vite.config.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..efe63354e90b5e9c572d6ca72bd4cea66791fae1
+--- /dev/null
++++ b/frontend/vite.config.js
+@@ -0,0 +1,9 @@
++import { defineConfig } from 'vite';
++import react from '@vitejs/plugin-react';
++
++export default defineConfig({
++  plugins: [react()],
++  server: {
++    port: 5173
++  }
++});
+ 
+EOF
+)
