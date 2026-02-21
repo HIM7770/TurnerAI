@@ -1,0 +1,28 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/docs/IMPLEMENTATION_PLAN.md b/docs/IMPLEMENTATION_PLAN.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..a8ecb67e61837675b5861f0abc3073449c95af62
+--- /dev/null
++++ b/docs/IMPLEMENTATION_PLAN.md
+@@ -0,0 +1,18 @@
++# TurnerAI Implementation Plan
++
++This scaffold maps the original Genesis Engine AI prompt into a practical starter architecture.
++
++## Delivered in this commit
++
++- **Web-based 3D editor foundation** (React + Three.js viewport, hierarchy, inspector, asset browser, AI prompt panels).
++- **Node.js API foundation** with JWT auth, subscription tiers, generation quota gating, queue-like async generation jobs, export restrictions, dashboard payload, project encryption utility, and Stripe webhook signature validation.
++- **Tier modeling** for Builder, Pro, Studio, Creator Elite matching requested pricing and capability boundaries.
++- **AI endpoints** for scene generation, game logic generation, NPC generation, and Studio-tier multiplayer template generation.
++
++## Next build phases
++
++1. Replace fake generation payloads with actual model/script generation workers.
++2. Persist data in Postgres + object storage (S3/GCS).
++3. Move queue execution to Redis/BullMQ and add abuse/rate-limiting middleware.
++4. Integrate real Stripe checkout and customer portal.
++5. Add import/export packagers for Roblox/Unity/Unreal file formats.
+ 
+EOF
+)
